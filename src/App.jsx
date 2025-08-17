@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function App() {
   const [cards, setCards] = useState([]);
   const [newCardText, setNewCardText] = useState("");
   const [selectedCard, setSelectedCard] = useState(null);
   const [isSelecting, setIsSelecting] = useState(false);
+  const [isVerticalLayout, setIsVerticalLayout] = useState(false);
+  const inputContainerRef = useRef(null);
 
   const colorOptions = [
     "bg-pink-200", "bg-blue-200", "bg-green-200", "bg-yellow-200", 
@@ -55,6 +57,19 @@ function App() {
     setIsSelecting(false);
   };
 
+  useEffect(() => {
+    const updateLayout = () => {
+      if (inputContainerRef.current) {
+        const width = inputContainerRef.current.offsetWidth;
+        setIsVerticalLayout(width < 300); // Increased threshold for mobile
+      }
+    };
+
+    updateLayout(); // Set initial layout
+    window.addEventListener('resize', updateLayout);
+    return () => window.removeEventListener('resize', updateLayout);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-rose-50 p-15 font-sans">
       <div className="max-w-6xl mx-auto">
@@ -72,9 +87,9 @@ function App() {
         </div>
 
         {/* Add Card Section */}
-        <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 mb-4 shadow-sm border border-pink-200">
-          <div className="flex gap-3 items-end">
-            <div className="flex-1">
+        <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 mb-4 shadow-sm border border-pink-200" ref={inputContainerRef}>
+          <div className={`flex gap-3 items-end ${isVerticalLayout ? 'flex-col' : 'flex-row'}`}>
+            <div className={`flex-1 ${isVerticalLayout ? 'w-full' : ''}`}>
               <label className="block text-gray-700 text-sm font-semibold mb-1">
                 Add New Option
               </label>
@@ -117,19 +132,19 @@ function App() {
         <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 mb-4 shadow-sm border border-pink-200">
           <h3 className="text-lg font-semibold text-gray-700 mb-3 text-center">Your Options</h3>
           <div className="max-h-48 overflow-y-auto pr-2">
-            <div className="grid grid-cols-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+            <div className="grid gap-3" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))'}}>
               {cards.map((card) => (
                 <div
                   key={card.id}
-                  className={`${card.color} h-20 w-full rounded-xl p-3 text-gray-800 shadow-sm transform transition-all duration-300 hover:scale-105 hover:shadow-md relative group flex items-center justify-center border border-white/50`}
+                  className={`${card.color} min-h-[5rem] w-full rounded-xl p-3 text-gray-800 shadow-sm transform transition-all duration-300 hover:scale-105 hover:shadow-md relative group flex items-center justify-center border border-white/50`}
                 >
                   <button
                     onClick={() => removeCard(card.id)}
-                    className="absolute top-1 right-1 w-5 h-5 bg-white/60 rounded-full flex items-center justify-center text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white/80 text-sm font-bold"
+                    className="absolute top-1 right-1 w-5 h-5 bg-white/60 rounded-full flex items-center justify-center text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white/80 text-sm font-bold z-10"
                   >
                     ×
                   </button>
-                  <p className="text-base font-bold text-center leading-tight px-1 font-['Comic_Sans_MS']">{card.text}</p>
+                  <p className="text-base font-bold text-center leading-tight px-1 font-['Comic_Sans_MS'] whitespace-nowrap overflow-hidden text-ellipsis max-w-full">{card.text}</p>
                 </div>
               ))}
             </div>
