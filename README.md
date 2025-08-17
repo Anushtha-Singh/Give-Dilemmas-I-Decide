@@ -14,7 +14,7 @@
 
 ## 🚀 Live Demo
 
-[Try the app here!](#) *(Add your deployed URL when ready)*
+[https://give-dilemmas-i-decide.vercel.app/](#)*
 
 ## 🖼️ Screenshots
 
@@ -139,7 +139,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **React Team** for the amazing framework
 - **Tailwind CSS** for the utility-first CSS approach
 - **Vite** for the fast build tooling
 - **Comic Sans MS** for the fun typography (controversial but effective!)
