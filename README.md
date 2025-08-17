@@ -14,7 +14,7 @@
 
 ## 🚀 Live Demo
 
-[https://give-dilemmas-i-decide.vercel.app/](#)*
+[Try the app here!](#) *(https://give-dilemmas-i-decide.vercel.app/)*
 
 ## 🖼️ Screenshots
 
@@ -55,7 +55,7 @@
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/give-dilemmas-i-decide.git
+   git clone https://github.com/anushtha-singh/give-dilemmas-i-decide.git
    cd give-dilemmas-i-decide
    ```
 
