@@ -70,34 +70,6 @@ function App() {
     return () => window.removeEventListener('resize', updateLayout);
   }, []);
 
-  // Load cards from localStorage on component mount
-  useEffect(() => {
-    try {
-      const savedCards = localStorage.getItem('cannotPickCards');
-      if (savedCards) {
-        const parsedCards = JSON.parse(savedCards);
-        if (Array.isArray(parsedCards)) {
-          setCards(parsedCards);
-          console.log('Cards loaded from localStorage:', parsedCards);
-        }
-      }
-    } catch (error) {
-      console.error('Error loading cards:', error);
-    }
-  }, []);
-
-  // Save cards to localStorage whenever cards change
-  useEffect(() => {
-    if (cards.length > 0) {
-      try {
-        localStorage.setItem('cannotPickCards', JSON.stringify(cards));
-        console.log('Cards saved to localStorage:', cards);
-      } catch (error) {
-        console.error('Error saving cards:', error);
-      }
-    }
-  }, [cards]);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-rose-50 p-15 font-sans">
       <div className="max-w-6xl mx-auto">
